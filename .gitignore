@@ -328,3 +328,10 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+.vscode
+appauth.db
+appauth copy.db
+appauth.db.zip
+fiber_locations.db
+.DS_Store

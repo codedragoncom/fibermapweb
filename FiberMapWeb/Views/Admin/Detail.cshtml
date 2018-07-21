@@ -1,0 +1,64 @@
+﻿@model FiberMapWeb.Database.FiberLocation
+
+@{
+    ViewData["Title"] = "FiberMap - Location Detail";
+}
+
+<div class="row">
+    <div class="col-lg-10">
+        <form method="post">
+            <div class="row">
+                <br/><br/>
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    @if(Model.LocationId > 0) {
+                        <label>Location ID:</label>@Model.LocationId
+                        <input asp-for="LocationId"/>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Address:</label><br/>
+                    <input asp-for="Address" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label>City:</label><br/>
+                    <input asp-for="City"/>
+                </div>
+                <div class="col-md-3">
+                    <label>State</label><br/>
+                    <input asp-for="State"/>
+                </div>
+                <div class="col-md-3">
+                    <label>Zip</label><br/>
+                    <input asp-for="Zip"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Latitude</label><br/>
+                    <input asp-for="Latitude"/>
+                </div>
+                <div class="col-md-3">
+                    <label>Longitude</label><br/>
+                    <input asp-for="Longitude"/>
+                </div>
+
+                <div class="col-md-3">
+                    <button id="btnGetLatLng">Get Cordinates</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <button type="submit" value="Save">Save</button>
+            </div>
+        </form>
+    </div>
+</div>    

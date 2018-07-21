@@ -1,0 +1,47 @@
+﻿@model FiberMapWeb.Models.ListViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "FiberMap - Address List";
+}
+
+<div class="container">
+    <h2>Fiber Locations</h2>
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div>@Html.ActionLink("NEW RECORD", "Detail", "Admin")</div>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
+            <th>Lattitude</th>
+            <th>Longitude</th>
+          </tr>
+        </thead>
+        <tbody>
+        @foreach(var location in Model.Locations)
+        {  
+          <tr>
+            <td>
+                @Html.ActionLink("EDIT", "Detail", "Admin", new {@id = location.LocationId})
+                @Html.ActionLink("DELETE", "Delete", "Admin", new {@id = location.LocationId})
+            </td>
+
+            <td>@location.Address</td>
+            <td>@location.City</td>
+            <td>@location.State</td>
+            <td>@location.Zip</td>
+            <td>@location.Latitude</td>
+            <td>@location.Longitude</td>
+          </tr>
+         }           
+        </tbody>
+      </table>
+    </div>
+</div>

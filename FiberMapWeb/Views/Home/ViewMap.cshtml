@@ -1,0 +1,80 @@
+﻿@{
+    string apiKey = string.Empty;
+    if (ViewData["GoogleAPIKey"] != null)
+    {
+        apiKey = ViewData["GoogleAPIKey"].ToString();
+    }
+}
+
+<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+
+<script src="http://maps.google.com/maps/api/js?key=@apiKey" type="text/javascript"></script>
+
+
+<script>
+    var debug = false;
+
+    function writeToInfoPanel(dataToWrite) {
+        if (debug) {
+            $("#infopanel").append(dataToWrite);
+        }
+    }
+
+    function writeToConsole(dataToWrite) {
+        if (debug) {
+            console.log(dataToWrite);
+        }
+    }
+
+
+    function displayGoogleMaps(locations) {
+        // Setup map and center on my cordinates
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 10,
+          center: new google.maps.LatLng(35.191949, -84.137302),
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        var infowindow = new google.maps.InfoWindow();
+
+        var marker;
+        var i = 0;
+        var geocoder = new google.maps.Geocoder();
+        writeToConsole("There are " + locations.length + " addresses");
+        writeToInfoPanel("There are " + locations.length + " addresses<br/>");
+        locations.forEach(function(location) {
+            i++;
+            try {
+                //console.log(location.address);
+                writeToInfoPanel("Location: " + location.address + "<br/>");
+                writeToInfoPanel("Latitude: " + location.latitude + "<br/>");
+                writeToInfoPanel("Longitude: " + location.longitude + "<br/>");
+    
+                var marker = new google.maps.Marker({
+                   position: new google.maps.LatLng(location.latitude, location.longitude),
+                   map: map
+                });
+
+                google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                  return function() {
+                    infowindow.setContent(location.address);
+                    infowindow.open(map, marker);
+                  }
+                })(marker, i));
+            } catch(err) {
+                console.log("ERROR: " + err);
+                writeToInfoPanel("ERROR: " + err + "<br/>");
+            }
+        });
+    }
+    
+    $.getJSON('/home/getlocations', function(data) {
+            //console.log(data);
+            //data.forEach(function(obj) { console.log(obj.address); });
+            displayGoogleMaps(data);
+    });
+</script>
+
+<div id="map" style="width: 1250px; height: 800px;"></div>
+<div id="infopanel" />
+
